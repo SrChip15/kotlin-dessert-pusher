@@ -36,10 +36,10 @@ import timber.log.Timber
  * https://developer.android.com/guide/components/processes-and-threads
  *
  */
-class DessertTimer : DefaultLifecycleObserver {
+class DessertTimer(private var secondsCount: Int = 0) : DefaultLifecycleObserver {
 
     // The number of seconds counted since the timer started
-    private var secondsCount = 0
+    // private var secondsCount = 0
 
     /**
      * [Handler] is a class meant to process a queue of messages (known as [android.os.Message]s)
@@ -80,4 +80,6 @@ class DessertTimer : DefaultLifecycleObserver {
         handler.removeCallbacks(runnable)
         Timber.i("Timer stopped at : $secondsCount")
     }
+
+    fun getSecondsCount() = secondsCount
 }

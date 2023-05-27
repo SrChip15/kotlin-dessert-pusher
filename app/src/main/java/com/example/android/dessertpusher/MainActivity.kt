@@ -18,6 +18,7 @@ package com.example.android.dessertpusher
 
 import android.content.ActivityNotFoundException
 import android.os.Bundle
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     private var revenue = 0
     private var dessertsSold = 0
 
+    private lateinit var timer: DessertTimer
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
 
@@ -76,6 +78,12 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         super.onStop()
         Timber.i("onStop called")
         // does ntothis.finish()
+        timer.stopTimer()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Timber.i("onRestart called")
     }
 
     override fun onDestroy() {
@@ -87,11 +95,15 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     override fun onStart() {
         super.onStart()
         Timber.i("onStart called")
+        timer.startTimer()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.i("onCreate called")
+
+        timer = DessertTimer()
+        timer.startTimer()
 
         // Use Data Binding to get reference to the views
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)

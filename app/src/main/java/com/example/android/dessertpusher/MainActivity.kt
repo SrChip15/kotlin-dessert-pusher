@@ -29,7 +29,7 @@ import androidx.lifecycle.LifecycleObserver
 import com.example.android.dessertpusher.databinding.ActivityMainBinding
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity(), LifecycleObserver {
+class MainActivity : AppCompatActivity() {
 
     private var revenue = 0
     private var dessertsSold = 0
@@ -77,8 +77,6 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     override fun onStop() {
         super.onStop()
         Timber.i("onStop called")
-        // does ntothis.finish()
-        timer.stopTimer()
     }
 
     override fun onRestart() {
@@ -95,7 +93,6 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     override fun onStart() {
         super.onStart()
         Timber.i("onStart called")
-        timer.startTimer()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,7 +100,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         Timber.i("onCreate called")
 
         timer = DessertTimer()
-        timer.startTimer()
+        lifecycle.addObserver(timer)
+
 
         // Use Data Binding to get reference to the views
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
